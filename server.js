@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import userRouter from './routes/user-routes.js'
 import productRouter from './routes/products-routes.js'
+import supplierRouter from './routes/supplier-routes.js'
 import morgan from 'morgan';
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use ("/api", userRouter)
 app.use ("/api", productRouter)
+app.use("/api", supplierRouter)
 
 
 app.get('/', (req, res) => {
