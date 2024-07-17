@@ -45,9 +45,24 @@ const updateProductController = async (req, res) => {
     }
 };
 
+const deleteProductController = async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const deletedProduct = await productsService.deleteProduct(productId);
+        if (deletedProduct) {
+            res.status(200).json(deletedProduct);
+        } else {
+            res.status(401).json({ message: "Problem with deleting user" });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 export default {
     getProductsController,
     addProductController,
     getAllProductsController,
-    updateProductController
+    updateProductController,
+    deleteProductController
 }

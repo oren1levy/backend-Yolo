@@ -37,9 +37,22 @@ const updateProduct = async (productId, updatedFields) => {
     }
 }
 
+const deleteProduct = async (productId) => {
+    try {
+        const deletedProduct = await ProductModel.findByIdAndDelete(productId);
+        if (!deletedProduct) {
+            throw new Error('product not found');
+        }
+        return deletedProduct;
+    } catch (error) {
+        throw new Error('Error deleting product: ' + error.message);
+    }
+};
+
 export default {
     getProducts,
     addProducts,
     getAllProducts,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };

@@ -25,7 +25,34 @@ const loginController = async (req, res) => {
     }
 };
 
+const updateUserController = async (req, res) => {
+    const { userId } = req.params; 
+    const updatedFields = req.body; 
+    try {
+        const updatedUser = await userService.updateUser(userId, updatedFields);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const deleteUserController = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const deletedUser = await userService.deleteUser(userId);
+        if (deletedUser) {
+            res.status(200).json(deletedUser);
+        } else {
+            res.status(401).json({ message: "Problem with deleting user" });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 export default {
     registerController,
-    loginController
+    loginController,
+    updateUserController,
+    deleteUserController
 };

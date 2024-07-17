@@ -14,7 +14,37 @@ const login = async (email, password) => {
     return user;
 };
 
+const updateUser = async (userId, updatedFields) => {
+    try {
+        const updateUser = await UserModel.findByIdAndUpdate(
+            userId,
+            updatedFields,
+            { new: true } 
+        );
+        return updateUser;
+    } catch (error) {
+        throw new Error(`Failed to update user: ${error.message}`);
+    }
+};
+
+const deleteUser = async (userId) => {
+    try {
+        const deletedUser = await UserModel.findByIdAndDelete(userId);
+        if (!deletedUser) {
+            throw new Error('User not found');
+        }
+        return deletedUser;
+    } catch (error) {
+        throw new Error('Error deleting user: ' + error.message);
+    }
+};
+
+
+
+
 export default {
     register,
-    login
+    login,
+    updateUser,
+    deleteUser
 };

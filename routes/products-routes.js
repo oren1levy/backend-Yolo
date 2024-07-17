@@ -11,5 +11,7 @@ router.route('/auth/getAllProducts')
     .post(productsController.getAllProductsController)
 router.route('/auth/updateProduct/:productId') 
     .put(productsController.updateProductController);
+router.route('/auth/deleteProduct/:productId')
+    .delete(productsController.deleteProductController);
 
 export default router;
