@@ -6,11 +6,14 @@ import productRouter from './routes/products-routes.js'
 import supplierRouter from './routes/supplier-routes.js'
 import orderRouter from './routes/orders-routes.js';
 import morgan from 'morgan';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const dbURI = process.env.DB_URI;
 
-const dbURI = 'mongodb+srv://orenlevy10:vF5tNq2pkwEtek5B@oren.bwzoi86.mongodb.net/YOLO'; 
 mongoose.connect(dbURI)
   .then(() => app.listen(port, () => console.log(`Server is running on port ${port}`)))
   .catch((err) => console.log(err));
