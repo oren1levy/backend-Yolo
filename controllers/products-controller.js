@@ -59,10 +59,42 @@ const deleteProductController = async (req, res) => {
     }
 };
 
+const getProductsByCategoryController = async (req, res) => {
+    try {
+        const { category } = req.params; 
+        const products = await productsService.getProductsByCategory(category);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getProductsBySupplierController = async (req, res) => {
+    try {
+        const { supplier } = req.params; 
+        const products = await productsService.getProductsBySupplier(supplier);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const groupProductsByColorController = async (req, res) => {
+    try {
+        const groupedProducts = await productsService.groupProductsByColor();
+        res.status(200).json(groupedProducts);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 export default {
     getProductsController,
     addProductController,
     getAllProductsController,
     updateProductController,
-    deleteProductController
+    deleteProductController,
+    getProductsByCategoryController,
+    getProductsBySupplierController,
+    groupProductsByColorController
 }

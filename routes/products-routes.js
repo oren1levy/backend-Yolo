@@ -13,5 +13,11 @@ router.route('/auth/updateProduct/:productId')
     .put(productsController.updateProductController);
 router.route('/auth/deleteProduct/:productId')
     .delete(productsController.deleteProductController);
+router.route('/auth/category/:category')
+    .get(productsController.getProductsByCategoryController);
+router.route('/auth/supplier/:supplier')
+    .get(productsController.getProductsBySupplierController);
+router.route('/auth/groupByColor')
+    .get(productsController.groupProductsByColorController);
 
 export default router;
