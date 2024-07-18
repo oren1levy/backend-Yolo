@@ -3,21 +3,21 @@ import productsController from '../controllers/products-controller.js';
 
 const router = express.Router();
 
-router.route('/auth/getProducts')
-    .post(productsController.getProductsController)
-router.route('/auth/addProducts')
-    .post(productsController.addProductController)
-router.route('/auth/getAllProducts')
-    .post(productsController.getAllProductsController)
-router.route('/auth/updateProduct/:productId') 
+router.route('/getProducts')
+    .post(productsController.getProductsController);
+router.route('/addProducts')
+    .post(productsController.addProductController);
+router.route('/getAllProducts')
+    .post(productsController.getAllProductsController);
+router.route('/updateProduct/:productId')
     .put(productsController.updateProductController);
-router.route('/auth/deleteProduct/:productId')
+router.route('/deleteProduct/:productId')
     .delete(productsController.deleteProductController);
-router.route('/auth/category/:category')
+router.route('/category/:category')
     .get(productsController.getProductsByCategoryController);
-router.route('/auth/supplier/:supplier')
+router.route('/supplier/:supplier')
     .get(productsController.getProductsBySupplierController);
-router.route('/auth/groupByColor')
+router.route('/groupByColor')
     .get(productsController.groupProductsByColorController);
 
 export default router;

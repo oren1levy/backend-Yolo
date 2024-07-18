@@ -4,6 +4,7 @@ import cors from 'cors';
 import userRouter from './routes/user-routes.js'
 import productRouter from './routes/products-routes.js'
 import supplierRouter from './routes/supplier-routes.js'
+import orderRouter from './routes/orders-routes.js';
 import morgan from 'morgan';
 
 const app = express();
@@ -19,9 +20,11 @@ mongoose.connect(dbURI)
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
-app.use ("/api", userRouter)
-app.use ("/api", productRouter)
-app.use("/api", supplierRouter)
+
+app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
+app.use("/api/suppliers", supplierRouter);
+app.use("/api/orders", orderRouter);
 
 
 app.get('/', (req, res) => {
