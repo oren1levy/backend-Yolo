@@ -11,5 +11,7 @@ router.route('/updateUser/:userId')
     .put(usersController.updateUserController);
 router.route('/deleteUser/:userId')
     .delete(usersController.deleteUserController);
+router.route('/searchUser/:userId')
+    .get(usersController.searchUserController);
 
 export default router;

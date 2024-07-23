@@ -46,9 +46,25 @@ const deleteUserController = async (req, res) => {
     }
 };
 
+const searchUserController = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const searchUser = await userService.searchUser(userId);
+        if (searchUser) {
+            res.status(200).json(searchUser);
+        } else {
+            res.status(401).json({ message: "Problem with serach user" });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 export default {
     registerController,
     loginController,
     updateUserController,
-    deleteUserController
+    deleteUserController,
+    searchUserController
+
 };

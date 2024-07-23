@@ -61,6 +61,18 @@ const deleteUser = async (userId) => {
     }
 };
 
+const searchUser = async (userId) =>{
+    try {
+        const searchUser = await UserModel.findById(userId);
+        if (!searchUser) {
+            throw new Error('User not found');
+        }
+        return searchUser;
+    } catch (error) {
+        throw new Error('Error search user: ' + error.message);
+    }
+}
+
 
 
 
@@ -68,5 +80,6 @@ export default {
     register,
     login,
     updateUser,
-    deleteUser
+    deleteUser,
+    searchUser
 };
