@@ -43,9 +43,40 @@ const deleteOrder = async (orderId) => {
     }
 };
 
+const getAllOrders = async () =>{
+    try {
+        const Orders = await OrderModel.find();
+        return Orders;
+    } catch (error) {
+        throw new Error(`Failed to fetch Orders: ${error.message}`);
+    }
+}
+
+const getMonthlySales = async () => {
+    try {
+        const salesData = await OrderModel.aggregate([
+            {
+                $group: {
+                    _id: { $month: "$createdAt" },
+                    totalSales: { $sum: "$totalPrice" },
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { "_id": 1 } }
+        ]);
+        console.log('Sales data:', salesData); 
+        return salesData;
+    } catch (error) {
+        console.error(`Failed to fetch monthly sales data: ${error.message}`); 
+        throw new Error(`Failed to fetch monthly sales data: ${error.message}`);
+    }
+};
+
 export default {
     createOrder,
     getOrderById,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getAllOrders,
+    getMonthlySales
 };
