@@ -45,9 +45,30 @@ const deleteOrderController = async (req, res) => {
     }
 };
 
+const getAllOrdersController = async (req,res) => {
+    try {
+        const orders = await orderService.getAllOrders();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+const getMonthlySalesController = async (req, res) => {
+    try {
+        const salesData = await orderService.getMonthlySales();
+        res.json(salesData);
+    } catch (error) {
+        console.error('Error in getMonthlySalesController:', error.message); 
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export default {
     createOrderController,
     getOrderByIdController,
     updateOrderController,
-    deleteOrderController
+    deleteOrderController,
+    getAllOrdersController,
+    getMonthlySalesController
 };
