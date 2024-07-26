@@ -72,11 +72,21 @@ const getMonthlySales = async () => {
     }
 };
 
+const getOrdersByUserId = async (userId) => {
+    try {
+        const orders = await OrderModel.find({ userId });
+        return orders;
+    } catch (error) {
+        throw new Error(`Failed to get orders for user: ${error.message}`);
+    }
+};
+
 export default {
     createOrder,
     getOrderById,
     updateOrder,
     deleteOrder,
     getAllOrders,
-    getMonthlySales
+    getMonthlySales,
+    getOrdersByUserId
 };

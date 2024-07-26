@@ -13,5 +13,7 @@ router.route('/getAllOrders')
     .post(orderController.getAllOrdersController);
 router.route('/sales/monthly')
     .get(orderController.getMonthlySalesController);
+router.route('/user/:userId')
+    .get(orderController.getOrdersByUserIdController);
 
 export default router;

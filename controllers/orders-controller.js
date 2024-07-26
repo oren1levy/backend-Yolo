@@ -64,11 +64,26 @@ const getMonthlySalesController = async (req, res) => {
     }
 };
 
+const getOrdersByUserIdController = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const orders = await orderService.getOrdersByUserId(userId);
+        if (orders.length > 0) {
+            res.status(200).json(orders);
+        } else {
+            res.status(404).json({ message: "No orders found for this user" });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 export default {
     createOrderController,
     getOrderByIdController,
     updateOrderController,
     deleteOrderController,
     getAllOrdersController,
-    getMonthlySalesController
+    getMonthlySalesController,
+    getOrdersByUserIdController
 };
