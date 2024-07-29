@@ -1,5 +1,5 @@
 import productsService from "../services/products-service.js";
-import ProductModel from "../models/products-model.js";
+
 
 const getProductsController = async (req, res) => {
     try {
@@ -15,15 +15,23 @@ const getProductsController = async (req, res) => {
     }
 };
 
-const addProductController = async (req,res) =>{
+const addProductController = async (req, res) => {
     try {
-        const product = new ProductModel(req.body);
-        const savedProduct = await productsService.addProducts(product);
+        const newProduct = {
+            name: req.body.productName,
+            supplierId: req.body.supplierId,
+            price: req.body.productPrice,
+            description: req.body.productDescription,
+            category: req.body.productCategory,
+            color: req.body.productColor,
+            img: `uploads/${req.file.filename}`
+        };
+        const savedProduct = await productsService.addProducts(newProduct);
         res.status(201).json(savedProduct);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-}
+};
 
 const getAllProductsController = async (req,res) => {
     try {
@@ -52,7 +60,7 @@ const deleteProductController = async (req, res) => {
         if (deletedProduct) {
             res.status(200).json(deletedProduct);
         } else {
-            res.status(401).json({ message: "Problem with deleting user" });
+            res.status(401).json({ message: "Problem with deleting product" });
         }
     } catch (error) {
         res.status(400).json({ message: error.message });

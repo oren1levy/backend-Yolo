@@ -8,6 +8,7 @@ import orderRouter from './routes/orders-routes.js';
 import locationRouter from './routes/location-routes.js'
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 
@@ -24,6 +25,11 @@ mongoose.connect(dbURI)
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
+
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
