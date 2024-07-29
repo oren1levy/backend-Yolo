@@ -6,6 +6,7 @@ import productRouter from './routes/products-routes.js'
 import supplierRouter from './routes/supplier-routes.js'
 import orderRouter from './routes/orders-routes.js';
 import locationRouter from './routes/location-routes.js'
+import metalRouter from './routes/metal-router.js'
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -36,6 +37,7 @@ app.use("/api/products", productRouter);
 app.use("/api/suppliers", supplierRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/locations", locationRouter);
+app.use("/api/metals", metalRouter);
 
 
 app.get('/', (req, res) => {
