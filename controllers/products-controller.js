@@ -10,7 +10,7 @@ const getProductsController = async (req, res) => {
         if (product) {
             res.status(200).json(product);
         } else {
-            res.status(401).json({ message: "Product not available" });
+            res.status(401).json({ message: "Product not available :(" });
         }
     } catch (error) {
         res.status(400).json({ message: error.message });
