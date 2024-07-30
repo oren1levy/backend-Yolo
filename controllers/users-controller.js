@@ -60,11 +60,21 @@ const searchUserController = async (req, res) => {
     }
 };
 
+const getUserStatsController = async (req, res) => {
+    try {
+        const stats = await userService.getUserStats();
+        res.status(200).json(stats);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 export default {
     registerController,
     loginController,
     updateUserController,
     deleteUserController,
-    searchUserController
+    searchUserController,
+    getUserStatsController
 
 };

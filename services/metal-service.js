@@ -3,8 +3,8 @@ import { readFile, writeFile } from 'fs/promises'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
-const __dirname = path.dirname(__filename); // get the name of the directory
+const __filename = fileURLToPath(import.meta.url); 
+const __dirname = path.dirname(__filename); 
 
 const BASE_URL = "https://api.metalpriceapi.com/v1/latest";
 const API_KEY = "d1f2f500fce04f8b9eb47f2928c0c6fe";
@@ -56,7 +56,6 @@ const saveCache = async (ts, metalPrices, diamondPrices) => {
 const getPrices = async () => {
     const now = Date.now();
 
-    // Check cache
     let cache = await getCache();
     const timeFromLastUpdate = now - cache['timestamp'];
     if(Math.floor(timeFromLastUpdate / 1000) <= UPDATE_RATE) return cache['prices'];

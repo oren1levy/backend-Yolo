@@ -1,4 +1,5 @@
 import UserModel from "../models/users-model.js"
+import OrderModel from "../models/orders-model.js";
 import bcrypt from "bcrypt"
 
 const register = async (user) => {
@@ -73,6 +74,22 @@ const searchUser = async (userId) =>{
     }
 }
 
+const getUserStats = async () => {
+    try {
+        const totalUsers = await UserModel.countDocuments({});
+        
+        const activeUsers = await UserModel.countDocuments({
+            lastLogin: { $gte: new Date(Date.now() - 30*24*60*60*1000) }
+        });
+
+        const totalOrders = await OrderModel.countDocuments({});
+
+        return { totalUsers, activeUsers, totalOrders };
+    } catch (error) {
+        throw new Error('Error fetching user stats: ' + error.message);
+    }
+};
+
 
 
 
@@ -81,5 +98,6 @@ export default {
     login,
     updateUser,
     deleteUser,
-    searchUser
+    searchUser,
+    getUserStats
 };

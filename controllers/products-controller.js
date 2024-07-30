@@ -1,5 +1,7 @@
-import productsService from "../services/products-service.js";
-
+import path from 'path';
+import fs from 'fs';
+import multer from 'multer';
+import productsService from '../services/products-service.js';
 
 const getProductsController = async (req, res) => {
     try {
@@ -15,32 +17,72 @@ const getProductsController = async (req, res) => {
     }
 };
 
+const getUploadPath = (category) => {
+    const categoryMapping = {
+        'עגיל': 'earrings',
+        'שרשרת': 'necklaces',
+        // Add other mappings as needed
+    };
+
+    const directoryName = categoryMapping[category] || 'misc';
+    const uploadPath = path.join(path.resolve(), 'uploads', directoryName);
+
+    return uploadPath;
+};
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = getUploadPath(req.body.productCategory);
+
+        if (!uploadPath) {
+            cb(new Error('Invalid upload path'));
+            return;
+        }
+
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage });
+
 const addProductController = async (req, res) => {
     try {
+        const { productName, supplierId, productPrice, productDescription, productCategory, productColor } = req.body;
+        const imgPath = req.file ? path.join('uploads', req.file.destination.split('uploads').pop(), req.file.filename) : null;
+
         const newProduct = {
-            name: req.body.productName,
-            supplierId: req.body.supplierId,
-            price: req.body.productPrice,
-            description: req.body.productDescription,
-            category: req.body.productCategory,
-            color: req.body.productColor,
-            img: `uploads/${req.file.filename}`
+            name: productName,
+            supplierId,
+            price: productPrice,
+            description: productDescription,
+            category: productCategory,
+            color: productColor,
+            img: imgPath
         };
+
         const savedProduct = await productsService.addProducts(newProduct);
         res.status(201).json(savedProduct);
     } catch (error) {
+        console.error('Error adding product:', error);
         res.status(400).json({ message: error.message });
     }
 };
 
-const getAllProductsController = async (req,res) => {
+const getAllProductsController = async (req, res) => {
     try {
         const products = await productsService.getAllProducts();
         res.status(200).json(products);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-}
+};
 
 const updateProductController = async (req, res) => {
     const { productId } = req.params; 
@@ -104,5 +146,6 @@ export default {
     deleteProductController,
     getProductsByCategoryController,
     getProductsBySupplierController,
-    groupProductsByColorController
-}
+    groupProductsByColorController,
+    upload
+};

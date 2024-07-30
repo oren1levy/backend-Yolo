@@ -13,5 +13,7 @@ router.route('/deleteUser/:userId')
     .delete(usersController.deleteUserController);
 router.route('/searchUser/:userId')
     .get(usersController.searchUserController);
+router.route('/stats')
+    .get(usersController.getUserStatsController);
 
 export default router;
