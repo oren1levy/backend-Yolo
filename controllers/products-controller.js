@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import multer from 'multer';
 import productsService from '../services/products-service.js';
+import {postTweet} from '../services/twitter-service.js';
 
 const getProductsController = async (req, res) => {
     try {
@@ -67,10 +68,19 @@ const addProductController = async (req, res) => {
             img: imgPath
         };
 
+        // שמירת המוצר במסד הנתונים
         const savedProduct = await productsService.addProducts(newProduct);
+
+        // יצירת הודעת הציוץ
+        const status = `New product added: ${savedProduct.name} - ${savedProduct.description}`;
+
+        // פרסום הציוץ
+        await postTweet(status);
+
+        // החזרת תגובה ללקוח
         res.status(201).json(savedProduct);
     } catch (error) {
-        console.error('Error adding product:', error);
+        console.error('Error adding product and posting tweet:', error);
         res.status(400).json({ message: error.message });
     }
 };
