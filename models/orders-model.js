@@ -29,6 +29,10 @@ totalPrice: {
 userId: {
     type: String,
     required: true
+},
+billNumber: {
+    type: String,
+    required: true
 }
 }, { timestamps: true });
 
