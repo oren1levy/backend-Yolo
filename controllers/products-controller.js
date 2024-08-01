@@ -22,7 +22,6 @@ const getUploadPath = (category) => {
     const categoryMapping = {
         'עגיל': 'earrings',
         'שרשרת': 'necklaces',
-        // Add other mappings as needed
     };
 
     const directoryName = categoryMapping[category] || 'misc';
@@ -68,16 +67,12 @@ const addProductController = async (req, res) => {
             img: imgPath
         };
 
-        // שמירת המוצר במסד הנתונים
         const savedProduct = await productsService.addProducts(newProduct);
 
-        // יצירת הודעת הציוץ
         const status = `New product added: ${savedProduct.name} - ${savedProduct.description}`;
 
-        // פרסום הציוץ
         await postTweet(status);
 
-        // החזרת תגובה ללקוח
         res.status(201).json(savedProduct);
     } catch (error) {
         console.error('Error adding product and posting tweet:', error);
